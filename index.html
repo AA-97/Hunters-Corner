@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body{
+        margin:0;
+        padding:0;
+        font-family:sans-serif;
+        background: url(loginpagebackground.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        }
+
+        /* Add a semi-transparent black overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3); /* Adjust the alpha value (0.3) for the desired darkness */
+            z-index: -1; /* Place the overlay behind the content */
+        }
+
+        .login-box{
+        width: 280px;
+        position:absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight:400;
+        color: white; /* Added text color for better visibility */
+        }
+        h1 {
+        border-bottom: 5px solid #ff6734;
+        width: 32%;
+        margin-bottom: 40px;
+        padding: 13px 0;
+        color: white; /* Added text color */
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            border-bottom: 1px solid #ff6734;
+            outline: none;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-size: 16px;
+            float: left;
+            color: white;
+            /* Add these rules to explicitly set background and text color */
+
+        }
+
+        /* Add this style to fix the white background issue */
+
+
+
+        input.btn {
+        width: 30%;
+        border-radius: 30px;
+        border: 1px solid #ff6734;
+        background: none;
+        font-size: 15px;
+        cursor: pointer;
+        padding: 5px;
+        font-weight: 500;
+        transition:  0.5s;
+        color: white; /* Added text color */
+        }
+        input.btn:hover{
+        transform: translateY(-10px);
+        color: White;
+        background-color: #ff6734; /* Added background color on hover */
+        }
+        a {
+        font-size: 14px;
+        text-decoration: none;
+        font-family: cursive;
+        float: left;
+        color: #ccc; /* Added text color */
+        }
+        a.button {
+        margin-left: 34px;
+        cursor: pointer;
+        font-size: 13px;
+        color: lightblue; /* Changed color for better visibility */
+        }
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #ccc;
+        opacity: 1; /* Firefox */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #ccc;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #ccc;
+        }
+    </style>
+</head>
+<body>
+<div class="login-box">
+    <h1>Login</h1>
+    <div class="textbox">
+        <input type="text" placeholder="Username" name="" value="" id="username" autocomplete="off">
+    </div>
+    <div class="textbox">
+        <input type="password" placeholder="Password" name="" value="" id="password">
+    </div>
+    <input type="button" class="btn" name=""  value="Submit" onclick="validate()">
+
+    <p><a href="#">forgot Password?</a></p>
+    <span><a href="register.html" class="button">Create New account</a></p></span>
+</div>
+
+
+
+
+
+<script>
+    // In a real application, you would store user data in a database.
+    // For this example, we'll use localStorage, but this is NOT secure for real passwords.
+    function validate() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+        let hasErrors = false; //track
+
+        // Clear previous error styles
+        usernameInput.style.color = "white";
+        passwordInput.style.color = "white";
+
+
+        // Check for the admin user first
+        if (username === "Aaron" && password === "97") {
+            localStorage.setItem('loggedInUser', username); // Store username
+            window.location.href = "Webpage.html"; // Redirect on success
+            return;
+        }
+
+        // Get stored user data from localStorage
+        let storedUsers = localStorage.getItem('registeredUsers');
+        let users = {};
+
+        if (storedUsers) {
+            try {
+                users = JSON.parse(storedUsers);
+            } catch (error) {
+                console.error("Error parsing user data:", error);
+                alert("Error: Invalid user data. Please register again."); //handle
+                localStorage.removeItem('registeredUsers');
+                return;
+            }
+        }
+
+        // Check username
+        if (!users[username]) {
+            usernameInput.value = "Username does not exist";
+            usernameInput.style.color = "red";
+            hasErrors = true;
+        }
+
+        // Check password independently
+        if (users[username] && users[username] !== password) {
+            passwordInput.type = "text"; //change to text
+            passwordInput.value = "Incorrect Password";
+            passwordInput.style.color = "red";
+            hasErrors = true;
+        } else if (!users[username] && password) {
+            // Optionally show a password error even if username doesn't exist
+            // You might want to comment this out if you only want the
+            // password error to show when a username is found.
+            passwordInput.type = "text";  //change to text
+            passwordInput.value = "Incorrect Password";
+            passwordInput.style.color = "red";
+            hasErrors = true;
+        }
+
+        // Redirect on success or display errors
+        if (!hasErrors && users[username] && users[username] === password) {
+            localStorage.setItem('loggedInUser', username); // Store the username
+            window.location.href = "Webpage.html"; // Redirect on success
+        } else if (hasErrors) {
+            setTimeout(function() {
+                usernameInput.value = "";
+                passwordInput.value = "";
+                usernameInput.style.color = "white";
+                passwordInput.style.color = "white";
+                passwordInput.type = "password"; //change back to password
+            }, 2000);
+        }
+    }
+</script>
+</body>
+</html>

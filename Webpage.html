@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hunter's Corner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: url(loginpagebackground.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-align: left;
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .profile-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #ff6734;
+        }
+
+        .profile-info span {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-right: 20px;
+        }
+
+        .logout-button {
+            background-color: transparent;
+            border: 2px solid #ff6734;
+            color: #ff6734;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #ff6734;
+            color: white;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #ff6734;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ff6734;
+        }
+
+        .main-content {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 2em;
+            color: #ff6734;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid #ff6734;
+            padding-bottom: 10px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 20px;
+            border-top: 2px solid #ff6734;
+            border-radius: 0px;
+        }
+
+        /* Styles for specific sections */
+        #user-profiles .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        #user-profiles .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #ff6734;
+        }
+
+        #user-profiles .profile h3{
+             color: #ff6734;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .section h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        #manage-users {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        #manage-users h2 {
+            font-size: 1.5em;
+            color: #ff6734;
+            margin-bottom: 20px;
+            text-align: left;
+            border-bottom: 1px solid #ff6734;
+            padding-bottom: 10px;
+        }
+
+        #manage-users ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #manage-users ul li {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #manage-users ul li button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        #manage-users ul li button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Hunters Corner</h1>
+        <div class="profile-info">
+            <img src="placeholder-profile.jpg" alt="User Profile">
+            <span id="profile-name">Guest</span>
+            <button class="logout-button" onclick="logout()">Log Out</button>
+        </div>
+    </div>
+</header>
+<nav>
+    <div class="container">
+        <ul>
+            <li><a href="#forums">Forums</a></li>
+            <li><a href="#user-profiles">User Profiles</a></li>
+            <li><a href="#classifieds">Classifieds</a></li>
+            <li id="manage-users-link" style="display:none;"><a href="#manage-users">Manage Users</a></li>
+        </ul>
+    </div>
+</nav>
+<main class="main-content">
+    <div class="container">
+        <section id="forums" class="section">
+            <h2>Forums/Discussions</h2>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h3>General Hunting</h3>
+                    <p>Discuss general hunting topics here.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>Deer Hunting</h3>
+                    <p>Discussions about deer hunting.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>Waterfowl Hunting</h3>
+                    <p>Discussions about waterfowl hunting.</p>
+                </div>
+            </div>
+        </section>
+        <section id="user-profiles" class="section">
+            <h2>User Profiles</h2>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <div class="profile">
+                        <img src="placeholder-profile.jpg" alt="John Doe's profile picture">
+                        <div>
+                            <h3>John Doe</h3>
+                            <p>Location: Anytown, USA</p>
+                            <p>Experience: 10 years</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <div class="profile">
+                        <img src="placeholder-profile.jpg" alt="Jane Smith's profile picture">
+                        <div>
+                            <h3>Jane Smith</h3>
+                            <p>Location: Springfield, USA</p>
+                            <p>Experience: 5 years</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="classifieds" class="section">
+            <h2>Classifieds</h2>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h3>For Sale: Rifle</h3>
+                    <p>Description: Used hunting rifle in excellent condition.</p>
+                    <p>Price: $500</p>
+                </div>
+                <div class="grid-item">
+                    <h3>Wanted: Hunting Dog</h3>
+                    <p>Description: Looking for a trained hunting dog.</p>
+                    <p>Contact: janesmith@email.com</p>
+                </div>
+            </div>
+        </section>
+        <section id="manage-users" class="section" style="display:none;">
+            <h2>Manage Users</h2>
+            <ul id="user-list">
+            </ul>
+        </section>
+    </div>
+</main>
+<footer>
+    <div class="container">
+        <p>&copy; 2023 Hunters Corner. All rights reserved.</p>
+    </div>
+</footer>
+<script>
+    function logout() {
+        // Redirect to the login page
+        window.location.href = "index.html";
+    }
+
+    // Get the user data from localStorage
+    const storedUsers = localStorage.getItem('registeredUsers');
+    let users = {};
+
+    if (storedUsers) {
+        try {
+            users = JSON.parse(storedUsers);
+        } catch (error) {
+            console.error("Error parsing user data:", error);
+            // Handle the error, e.g., clear the invalid data
+            localStorage.removeItem('registeredUsers');
+            users = {};
+        }
+    }
+
+    // Get the username of the logged-in user.
+    const loggedInUsername = localStorage.getItem('loggedInUser');
+    const profileNameSpan = document.getElementById("profile-name");
+    const manageUsersSection = document.getElementById("manage-users");
+    const userList = document.getElementById("user-list");
+    const manageUsersLink = document.getElementById("manage-users-link");
+
+
+    if (loggedInUsername) {
+        if (loggedInUsername === "Aaron") {
+            profileNameSpan.textContent = "Aaron"; // Display "Aaron" for admin
+            // Show the Manage Users section
+            manageUsersSection.style.display = "block";
+            manageUsersLink.style.display = "block";
+            displayUsers();
+
+        } else {
+            profileNameSpan.textContent = loggedInUsername; // Display the username
+        }
+    } else {
+        // If no user is logged in, you might want to display a default message or
+        // redirect the user to the login page.
+        profileNameSpan.textContent = "Guest"; // Or redirect: window.location.href = 'login.html';
+    }
+
+    function displayUsers() {
+        // Clear the user list
+        userList.innerHTML = '';
+        // Populate the user list
+        for (const username in users) {
+            if (username !== "Aaron") { // Exclude the admin user from the list
+                const listItem = document.createElement("li");
+                listItem.textContent = username;
+
+                const removeButton = document.createElement("button");
+                removeButton.textContent = "Remove";
+                removeButton.onclick = () => removeUser(username);
+
+                listItem.appendChild(removeButton);
+                userList.appendChild(listItem);
+            }
+        }
+    }
+
+    function removeUser(username) {
+        // Remove the user from the users object
+        delete users[username];
+        // Update the localStorage
+        localStorage.setItem('registeredUsers', JSON.stringify(users));
+        // Refresh the user list display
+        displayUsers();
+    }
+</script>
+</body>
+</html>

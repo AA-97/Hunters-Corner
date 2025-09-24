@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: url(loginpagebackground.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .register-form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .register-form h2 {
+            margin-bottom: 20px;
+            color: #ff6734;
+        }
+
+        .register-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+            color: #333; /* Default text color */
+        }
+
+        .register-form input:focus {
+            outline: none;
+            border-color: #ff6734;
+        }
+
+        .register-form button {
+            background-color: #ff6734;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .register-form button:hover {
+            background-color: #e55d2b;
+        }
+
+        .register-form p {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .register-form a {
+            color: #ff6734;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .register-form a:hover {
+            color: #e55d2b;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="register-form">
+        <h2>Create Account</h2>
+        <input type="text" id="newUsername" placeholder="Username" autocomplete="off">
+        <input type="password" id="newPassword" placeholder="Password" autocomplete="new-password">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" autocomplete="new-password">
+        <button onclick="register()">Register</button>
+        <p>Already have an account? <a href="index.html">Login</a></p>
+    </div>
+</div>
+
+<script>
+    // In a real application, this would be in a separate file or handled by a server.
+    //  For this example, we'll keep it simple and define it here.
+    function registerUser(username, password) {
+        // You might want to add more validation here in a real app
+        if (username && password) {
+            // In a real app, you would send this to your server to store in a database
+            //  using a library like fetch or axios
+            // For this example, we are just updating the object directly.
+            let registeredUsers = {};
+             if (localStorage.getItem('registeredUsers')) {
+                try {
+                    registeredUsers = JSON.parse(localStorage.getItem('registeredUsers'));
+                } catch (e) {
+                    console.error('Error parsing registeredUsers from localStorage:', e);
+                    // Handle the error appropriately, e.g., clear the invalid data
+                    localStorage.removeItem('registeredUsers');
+                    registeredUsers = {}; // Reset to an empty object
+                }
+            }
+
+            registeredUsers[username] = password;
+            console.log("User registered:", username, password);
+            console.log("Current registeredUsers:", registeredUsers);
+            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers)); //stores
+        }
+    }
+
+
+
+    function register() {
+        var newUsername = document.getElementById("newUsername");
+        var newPassword = document.getElementById("newPassword");
+        var confirmPassword = document.getElementById("confirmPassword");
+
+        // Clear previous error messages
+        newUsername.style.color = "#333";
+        newPassword.style.color = "#333";
+        confirmPassword.style.color = "#333";
+
+
+        let hasErrors = false;
+
+        // Validation:
+        if (newUsername.value.trim() === "") {
+            newUsername.value = "Username cannot be empty.";
+            newUsername.style.color = "red";
+            hasErrors = true;
+             setTimeout(function() {
+                newUsername.value = "";
+                newUsername.style.color = "#333";
+            }, 2000);
+        }
+        if (newPassword.value.length < 4) {
+            newPassword.value = "Password must be at least 4 characters long.";
+            newPassword.style.color = "red";
+            hasErrors = true;
+             setTimeout(function() {
+                newPassword.value = "";
+                newPassword.style.color = "#333";
+            }, 2000);
+        }
+        if (newPassword.value !== confirmPassword.value) {
+            confirmPassword.value = "Passwords do not match.";
+            confirmPassword.style.color = "red";
+            hasErrors = true;
+             setTimeout(function() {
+                confirmPassword.value = "";
+                confirmPassword.style.color = "#333";
+            }, 2000);
+        }
+
+        if (hasErrors) {
+            return; // Stop registration if there are errors
+        }
+
+        // In a real application, you would send this data to a server to create the account.
+        // For this example, we'll just display a success message and redirect to the login page.
+        //alert("Account created successfully!  Please log in."); //remove
+        registerUser(newUsername.value, newPassword.value); //call the function
+        window.location.href = "login.html"; // Redirect to the login page
+    }
+</script>
+</body>
+</html>
